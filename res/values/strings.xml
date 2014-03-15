@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DAVdroid JB Workaround</string>
+    <string name="label">DAVdroid JB Workaround</string>
+    <string name="account_type">bitfire.at.davdroid</string>
+    <string name="package_name">at.bitfire.davdroid</string>
+    <string name="title_activity_main">DAVdroid JB Workaround</string>
+    <string name="jb_bug_workaround_app_package">at.bitfire.davdroid.jbworkaround</string>
+    
+    <string name="workaround_info_html"><![CDATA[
+        <h1>DAVdroid Jelly Bean Workaround</h1>
+        <p>Thank you for purchasing and thus supporting DAVdroid in Google Play Store.</p>
+        
+        <p>Unfortunately, there are two issues with paid Google Play apps:</p>
+
+		<h2>1. Accounts may be gone after a reboot</h2>
+		<p>You may encounter the problem that all your <strong>DAVdroid accounts (including contacts and events) are gone
+        after rebooting your device</strong>. The reason is a <a href="https://code.google.com/p/android/issues/detail?id=34880">bug in Android</a>
+        that causes accounts of paid apps to be removed on start-up because the (encrypted) APK files are
+        loaded <i>after</i> checking for orphaned accounts.</p>
+        <p>Affected users:<br/>
+        * all Android 4.1 users who have got DAVdroid from Play Store;<br/>
+        * Android 4.2 users who have got DAVdroid from Play Store only with certain devices (for instance, most Samsung devices)</p>
+        
+        <h2>2. Accounts may be gone after upgrading DAVdroid</h2>
+        <p>You may encounter the problem that all your <strong>DAVdroid accounts (including contacts and events) when Play Store
+        updates DAVdroid</strong>. The reason is <a href="https://code.google.com/p/android/issues/detail?id=66905">another bug in Android</a>
+        that causes accounts of paid apps to be removed when upgrading for a similar reason.</p>
+        <p>Affected users: some Android 4.4.2 users who have got DAVdroid from Play Store (known for Nexus devices and Moto G)</p>
+        
+        <h2>What to do?</h2>
+        <p>This workaround is free, and the bug only affects paid (and therefore encrypted) apps. The workaround fakes a DAVdroid sync
+        adapter so Android doesn\'t delete DAVdroid related data, neither after a reboot nor when upgrading.</p>
+        
+        <p>If you see red DAVdroid symbols in the settings, contacts or events, it means that the fake DAVdroid adapter is active.
+        In this case, please wait a minute and try again. The workaround should load the real DAVdroid adapter and make the icons green.
+        If it does not, you can try to launch the workaround manually and try again.</p>
+        
+        <p>Please see also <a href="http://davdroid.bitfire.at/faq?pk_campaign=jb-workaround-app">DAVdroid FAQ</a>.</p>
+    ]]></string>
+    
+    <string name="davdroid_not_installed"><![CDATA[
+        <h1>DAVdroid Jelly Bean Workaround</h1>
+        
+        <p>The only purpose of this app is to work around two bugs which only occur when using DAVdroid from PlayStore:</p>
+        <p>* DAVdroid accounts may be gone after rebooting the device<br/>
+        * DAVdroid accounts may be gone after upgrading DAVdroid to a new version</p>
+        
+        <h2>DAVdroid not found</h2>
+        <p>It seems that DAVdroid is not installed on this device.</p>
+        <p><b>There\'s no reason to keep this workaround app installed without DAVdroid.</b></p>
+    ]]></string>
+    
+    <string name="davdroid_not_from_play_store"><![CDATA[
+        <h1>DAVdroid Jelly Bean Workaround</h1>
+        
+        <p>The only purpose of this app is to work around two bugs which only occur when using DAVdroid from PlayStore:</p>
+        <p>* DAVdroid accounts may be gone after rebooting the device<br/>
+        * DAVdroid accounts may be gone after upgrading DAVdroid to a new version</p>
+        
+        <h2>DAVdroid not installed from Play Store</h2>
+        <p>It seems that DAVdroid has been installed from %s.</p>
+        <p>Because this workaround app is only required when using DAVdroid from Play Store,
+        <b>there\'s no reason to keep this workaround app installed.</b></p>
+    ]]></string>
+    
+    <string name="credits"><![CDATA[        
+        <h2>Credits</h2>
+        <p>This workaround uses code from <a href="https://github.com/dmfs/jb-workaround-template/">Marten Gajda\'s JB Workaround Template</a>
+        (Apache License Version 2.0).</p>
+    ]]></string>
+    
+    <string name="external_apk">an external APK file</string>
+    <string name="get_davdroid">Get DAVdroid</string>
+    <string name="uninstall_davdroid_jb_workaround">Uninstall DAVdroid JB Workaround</string>
+
+</resources>
