@@ -5,12 +5,12 @@
   ~ are made available under the terms of the GNU Public License v3.0
   ~ which accompanies this distribution, and is available at
   ~ http://www.gnu.org/licenses/gpl.html
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="at.bitfire.davdroid"
-    android:versionCode="61" android:versionName="0.7.5"
-    android:installLocation="internalOnly">
+    android:installLocation="internalOnly"
+    android:versionCode="61"
+    android:versionName="0.7.5" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -26,13 +26,20 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:process=":sync">
-
+        android:process=":sync"
+        android:theme="@style/AppTheme" >
         <service
             android:name=".syncadapter.AccountAuthenticatorService"
             android:exported="false" >
@@ -75,13 +82,30 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.EditContactActivity"
+            android:label="@string/edit_contact_title" >
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/contact" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.at.bitfire.davdroid.contacts.gender" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".ui.setup.AddAccountActivity"
             android:excludeFromRecents="true" >
         </activity>
+
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/settings_title" >

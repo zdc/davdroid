@@ -7,7 +7,7 @@
   ~ http://www.gnu.org/licenses/gpl.html
   -->
 
-<ContactsAccountType xmlns:android="http://schemas.android.com/apk/res/android" >
+<ContactsAccountType xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditSchema>
         <DataKind
@@ -108,5 +108,12 @@
         
         <DataKind kind="sip_address" maxOccurs="1" />
     </EditSchema>
+
+    <ContactsDataKind
+        android:mimeType="vnd.android.cursor.item/vnd.at.bitfire.davdroid.contacts.gender"
+        android:icon="@drawable/addressbook"
+        android:summaryColumn="data1"
+        android:detailColumn="data1"
+        android:detailSocialSummary="true" />
 
 </ContactsAccountType>

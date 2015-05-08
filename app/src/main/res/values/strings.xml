@@ -156,6 +156,7 @@
     <string name="settings_carddav_vcard4_supported">Contacts are sent in VCard 4.0 format</string>
     <string name="settings_carddav_vcard4_not_supported">Contacts are sent in VCard 3.0 format</string>
 
+    <!-- account-setup related strings -->
     <string name="setup_select_collections">DAVdroid: Select collections</string>
     <string name="setup_neither_caldav_nor_carddav">No CalDAV-/CardDAV service is available at this location.</string>
     <string name="setup_add_account">Add account</string>
@@ -165,7 +166,7 @@
     <string name="setup_calendars">Calendars</string>
     <string name="setup_select_address_book">Select up to one address book (tap again to unselect):</string>
     <string name="setup_select_calendars">Select your calendars:</string>
-    
+
     <string name="setup_account_details">Account details</string>
     <string name="setup_account_name">Account name:</string>
     <string name="setup_account_name_hint">My CalDAV/CardDAV Account</string>
@@ -174,6 +175,12 @@
     <string name="setup_account_name_info">"Use your email address as account name because Android will use the account name as ORGANIZER field for events you create. You can't have two accounts with the same name.</string>
     <string name="setup_read_only">read-only</string>
 
+    <!-- EditContactActivity -->
+    <string name="edit_contact_title">Extended CardDAV fields</string>
+
     <string name="sync_error_title">Synchronization failed</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

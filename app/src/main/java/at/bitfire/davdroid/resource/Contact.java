@@ -41,6 +41,7 @@ import ezvcard.property.Birthday;
 import ezvcard.property.Categories;
 import ezvcard.property.Email;
 import ezvcard.property.FormattedName;
+import ezvcard.property.Gender;
 import ezvcard.property.Impp;
 import ezvcard.property.Logo;
 import ezvcard.property.Nickname;
@@ -106,12 +107,14 @@ public class Contact extends Resource {
 	@Getter @Setter private String displayName, nickName;
 	@Getter @Setter private String prefix, givenName, middleName, familyName, suffix;
 	@Getter @Setter private String phoneticGivenName, phoneticMiddleName, phoneticFamilyName;
+
+	@Getter @Setter private Gender gender;
+	@Getter @Setter private byte[] photo;
 	@Getter @Setter private String note;
+
 	@Getter @Setter private Organization organization;
 	@Getter @Setter private String jobTitle, jobDescription;
-	
-	@Getter @Setter private byte[] photo;
-	
+
 	@Getter @Setter private Anniversary anniversary;
 	@Getter @Setter private Birthday birthDay;
 
@@ -212,6 +215,10 @@ public class Contact extends Resource {
 			phoneticFamilyName = phoneticLastName.getValue();
 			vcard.removeExtendedProperty(PROPERTY_PHONETIC_LAST_NAME);
 		}
+
+		// GENDER
+		gender = vcard.getGender();
+		vcard.removeProperties(Gender.class);
 		
 		// TEL
 		phoneNumbers = vcard.getTelephoneNumbers();
@@ -385,6 +392,10 @@ public class Contact extends Resource {
 			vcard.addExtendedProperty(PROPERTY_PHONETIC_MIDDLE_NAME, phoneticMiddleName);
 		if (phoneticFamilyName != null)
 			vcard.addExtendedProperty(PROPERTY_PHONETIC_LAST_NAME, phoneticFamilyName);
+
+		// GENDER
+		if (gender != null)
+			vcard.setGender(gender);
 		
 		// TEL
 		for (Telephone phoneNumber : phoneNumbers)

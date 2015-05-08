@@ -49,26 +49,24 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import at.bitfire.davdroid.syncadapter.AccountSettings;
+import at.bitfire.davdroid.syncadapter.GenderColumns;
 import ezvcard.parameter.AddressType;
 import ezvcard.parameter.EmailType;
 import ezvcard.parameter.ImppType;
 import ezvcard.parameter.RelatedType;
 import ezvcard.parameter.TelephoneType;
-import ezvcard.parameter.VCardParameter;
 import ezvcard.property.Address;
 import ezvcard.property.Anniversary;
 import ezvcard.property.Birthday;
 import ezvcard.property.DateOrTimeProperty;
+import ezvcard.property.Gender;
 import ezvcard.property.Impp;
 import ezvcard.property.Related;
 import ezvcard.property.Telephone;
@@ -211,6 +209,9 @@ public class LocalAddressBook extends LocalCollection<Contact> {
 						case StructuredName.CONTENT_ITEM_TYPE:
 							populateStructuredName(c, values);
 							break;
+						case GenderColumns.CONTENT_ITEM_TYPE:
+							populateGender(c, values);
+							break;
 						case Phone.CONTENT_ITEM_TYPE:
 							populatePhoneNumber(c, values);
 							break;
@@ -271,6 +272,36 @@ public class LocalAddressBook extends LocalCollection<Contact> {
 		c.setPhoneticGivenName(row.getAsString(StructuredName.PHONETIC_GIVEN_NAME));
 		c.setPhoneticMiddleName(row.getAsString(StructuredName.PHONETIC_MIDDLE_NAME));
 		c.setPhoneticFamilyName(row.getAsString(StructuredName.PHONETIC_FAMILY_NAME));
+	}
+
+	protected void populateGender(Contact c, ContentValues row) {
+		Gender gender = null;
+
+		if (row.containsKey(GenderColumns.SEX))
+			switch (row.getAsInteger(GenderColumns.SEX)) {
+				case GenderColumns.SEX_MALE:
+					gender = Gender.male();
+					break;
+				case GenderColumns.SEX_FEMALE:
+					gender = Gender.female();
+					break;
+				case GenderColumns.SEX_OTHER:
+					gender = Gender.other();
+					break;
+				case GenderColumns.SEX_UNKNOWN:
+					gender = Gender.unknown();
+					break;
+				case GenderColumns.SEX_NOT_APPLICABLE:
+					gender = Gender.none();
+					break;
+			}
+		if (gender == null)
+			gender = new Gender(null);
+
+		if (row.containsKey(GenderColumns.GENDER_IDENTITY))
+			gender.setText(row.getAsString(GenderColumns.GENDER_IDENTITY));
+
+		c.setGender(gender);
 	}
 	
 	protected void populatePhoneNumber(Contact c, ContentValues row) {
@@ -673,7 +704,10 @@ public class LocalAddressBook extends LocalCollection<Contact> {
 		Contact contact = (Contact)resource;
 
 		queueOperation(buildStructuredName(newDataInsertBuilder(localID, backrefIdx), contact));
-		
+
+		if (contact.getGender() != null)
+			queueOperation(buildGender(newDataInsertBuilder(localID, backrefIdx), contact.getGender()));
+
 		for (Telephone number : contact.getPhoneNumbers())
 			queueOperation(buildPhoneNumber(newDataInsertBuilder(localID, backrefIdx), number));
 		
@@ -735,6 +769,47 @@ public class LocalAddressBook extends LocalCollection<Contact> {
 			.withValue(StructuredName.PHONETIC_GIVEN_NAME, contact.getPhoneticGivenName())
 			.withValue(StructuredName.PHONETIC_MIDDLE_NAME, contact.getPhoneticMiddleName())
 			.withValue(StructuredName.PHONETIC_FAMILY_NAME, contact.getPhoneticFamilyName());
+	}
+
+	protected Builder buildGender(Builder builder, Gender gender) {
+		if (StringUtils.isEmpty(gender.getGender()) && StringUtils.isEmpty(gender.getText()))
+			return null;
+
+		String sexSummary = null;
+		if (gender.getGender() != null) {
+			int sexCode;
+			switch (gender.getGender()) {
+				case Gender.MALE:
+					sexCode = GenderColumns.SEX_MALE;
+					sexSummary = "male";
+					break;
+				case Gender.FEMALE:
+					sexCode = GenderColumns.SEX_FEMALE;
+					sexSummary = "female";
+					break;
+				case Gender.OTHER:
+					sexCode = GenderColumns.SEX_OTHER;
+					sexSummary = "other";
+					break;
+				case Gender.NONE:
+					sexCode = GenderColumns.SEX_NOT_APPLICABLE;
+					sexSummary = "n/a";
+					break;
+				default:
+					sexCode = GenderColumns.SEX_UNKNOWN;
+					sexSummary = "unknown";
+			}
+			builder = builder.withValue(GenderColumns.SEX, sexCode);
+		}
+
+		String summary = (gender.getText() != null) ?
+				("Gender: " + gender.getText()) :
+				("Sex: " + sexSummary);
+
+		return builder
+			.withValue(Data.MIMETYPE, GenderColumns.CONTENT_ITEM_TYPE)
+			.withValue(GenderColumns.SUMMARY, summary)
+			.withValue(GenderColumns.GENDER_IDENTITY, gender.getText());
 	}
 	
 	protected Builder buildPhoneNumber(Builder builder, Telephone number) {
